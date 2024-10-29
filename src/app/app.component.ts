@@ -32,4 +32,10 @@ export class AppComponent implements OnInit {
     }));
     console.log(this.quizzes);
   }
+  selectedQuiz: QuizDisplay | undefined= undefined;
+  selectQuiz = (q:QuizDisplay) =>{
+    this.selectedQuiz =q;
+    console.log(this.selectedQuiz);
+
+  };
 }

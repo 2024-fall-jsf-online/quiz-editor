@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { QuizService } from './quiz.service';
 
+
 interface QuizDisplay {
   quizName: string;
   quizQuestions: QuestionDisplay[];
@@ -43,11 +44,11 @@ export class AppComponent implements OnInit {
   // Method to add a new quiz
   addNewQuiz() {
     const newQuiz: QuizDisplay = {
-      quizName: 'Untitled Quiz',
+      quizName: 'New Quiz !!!',
       quizQuestions: []
     };
-    this.quizzes = [...this.quizzes, newQuiz]; // Append the new quiz to the array
-    this.selectedQuiz = newQuiz; // Set the new quiz as selected
+    this.quizzes = [...this.quizzes, newQuiz]; 
+    this.selectedQuiz = newQuiz; 
     console.log('New Quiz Added:', this.selectedQuiz);
   }
 }

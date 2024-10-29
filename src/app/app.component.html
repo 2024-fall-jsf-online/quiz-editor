@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container"> 
   <div class="row">
     <div class="col-md-4">
       <button class="btn btn-outline-success mt-3 mb-3" (click)="addNewQuiz()">Add new quiz</button>
@@ -23,10 +23,14 @@
       *ngIf="selectedQuiz !== undefined" 
     >
       <div class="card big-light text-center">
-        <h2 *ngIf="selectedQuiz === undefined"> <!-- Show this only if selectedQuiz is undefined -->
+        <h2 
+        *ngIf="selectedQuiz === undefined"
+        > 
           No quiz selected
         </h2>
-        <p *ngIf="selectedQuiz === undefined"> <!-- Show this only if selectedQuiz is undefined -->
+        <p 
+        *ngIf="selectedQuiz === undefined"
+        > 
           Select or add new quiz
         </p>
       </div>
@@ -36,7 +40,11 @@
         <div class="card mt-3">
           <div class="card-header">General</div>
           <div class="card-body">
-            {{selectedQuiz.quizName}} <!-- Direct access to quizName -->
+            <input 
+              type="text" [(ngModel)]="selectedQuiz.quizName" 
+              class="form-control" 
+              placeholder="Enter quiz name" 
+            />
           </div>
         </div>
         <div class="card mt-3">

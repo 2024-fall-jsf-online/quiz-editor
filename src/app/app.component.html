@@ -4,9 +4,12 @@
       <button class="btn btn-outline-success mt-3 mb-3">Add new quiz</button>
       <div class="card">
         <div class="list-group list-group-flush">
-          <button class="list-group-item list-group-item-action"
+          <button class="list-group-item list-group-item-action" d-flx justify-content-between align-itme-center
           *ngFor="let q of quizzes">
-          {{q.quizName}}      
+          {{q.quizName}} 
+          <small class="font-italic font-weight-lighter">
+            {{q.quizQuestions.length}}.questions
+          </small>      
           </button>
         </div>
       </div>

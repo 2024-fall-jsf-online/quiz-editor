@@ -18,6 +18,7 @@ interface QuestionDisplay {
 export class AppComponent implements OnInit {
   title = 'quiz-editor';
   quizzes: QuizDisplay[] = [];
+  selectedQuiz: QuizDisplay | undefined = undefined;
 
   constructor(public quizSvc: QuizService) {}
 
@@ -32,10 +33,21 @@ export class AppComponent implements OnInit {
     }));
     console.log(this.quizzes);
   }
-  selectedQuiz: QuizDisplay | undefined= undefined;
-  selectQuiz = (q:QuizDisplay) =>{
-    this.selectedQuiz =q;
-    console.log(this.selectedQuiz);
 
+  // Method to select a quiz
+  selectQuiz = (q: QuizDisplay) => {
+    this.selectedQuiz = q;
+    console.log(this.selectedQuiz);
   };
+
+  // Method to add a new quiz
+  addNewQuiz() {
+    const newQuiz: QuizDisplay = {
+      quizName: 'Untitled Quiz',
+      quizQuestions: []
+    };
+    this.quizzes = [...this.quizzes, newQuiz]; // Append the new quiz to the array
+    this.selectedQuiz = newQuiz; // Set the new quiz as selected
+    console.log('New Quiz Added:', this.selectedQuiz);
+  }
 }

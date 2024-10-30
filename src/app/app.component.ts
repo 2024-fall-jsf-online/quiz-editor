@@ -13,27 +13,27 @@ interface QuestionDisplay {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
   title = 'quiz-editor';
 
   constructor(
-    public quizSvsc: QuizService
+    public quizSvc: QuizService
   ) {
   }
 
-ngOnInit(): void {
-    const quizzes = this.quizSvsc.loadQuizzes();
+  ngOnInit() {
+    const quizzes = this.quizSvc.loadQuizzes();
     console.log(quizzes);
 
     this.quizzes = quizzes.map(x => ({
-      quizName: x.quizName
+      quizName: x.name
       , quizQuestions: x.questions.map((y: any) => ({
         questionName: y.name
       }))
     }));
-    
+
     console.log(this.quizzes);
   }
 
@@ -44,5 +44,20 @@ ngOnInit(): void {
   selectQuiz = (q: QuizDisplay) => {
     this.selectedQuiz = q;
     console.log(this.selectedQuiz);
-  }; 
-}
+  };
+
+  addNewQuiz = () => {
+    const newQuiz = {
+      quizName: "Untitled Quiz"
+      , quizQuestions: []
+    };
+
+    this.quizzes = [
+      ...this.quizzes
+      , newQuiz 
+    ];
+
+    this.selectedQuiz = newQuiz;
+  };
+  };
+

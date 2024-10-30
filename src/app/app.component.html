@@ -1,7 +1,10 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-4 mt-3">
-      <button class="btn btn-outline-success mt-3.mb-3">
+    <div class="col-md-4">
+      <button 
+        class="btn btn-outline-success mt-3 mb-3"
+        (click)="addNewQuiz()"
+      >
         Add New Quiz
       </button>
       <div class="card">
@@ -14,15 +17,15 @@
           >
             {{ q.quizName }}
             <small class="font-itallic font-weight-lighter">
-              {{ q. quizQuestions.length }} questions
+              {{ q.quizQuestions.length}} questions
             </small>
           </button>
         </div>
       </div>
     </div>
     <div 
-    class="col-md-8"
-    *ngIf="selectedQuiz != undefined"
+      class="col-md-8"
+      *ngIf="selectedQuiz != undefined"
     >
       <div class="mt-3 mb-3">
         <button class="btn btn-outline-dark">
@@ -31,29 +34,33 @@
         <button class="btn btn-link">
           Cancel
         </button>
-        <div class="card mt-3">
-          <div class="card-header">
-            General
-          </div>
-          <div class="card-body">
-            {{ selectedQuiz.quizName }}
-          </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          General
         </div>
-        <div class="card mt-3">
-          <div class="card-header">
-            Questions
-          </div>
-          <div class="card-body">
-            Coming Soon
-          </div>
+        <div class="card-body">
+          <input 
+            type="text"
+            [(ngModel)]="selectedQuiz.quizName"
+            class="form-control"
+          >
         </div>
-        <div class="card mt-3">
-          <div class="card-header">
-            Other
-          </div>
-          <div class="card-body">
-            Coming Soon
-          </div>
+      </div>
+      <div class="card mt-3">
+        <div class="card-header">
+          Questions
+        </div>
+        <div class="card-body">
+          Coming soon
+        </div>
+      </div>
+      <div class="card mt-3">
+        <div class="card-header">
+          Other
+        </div>
+        <div class="card-body">
+          Coming soon
         </div>
       </div>
     </div>
@@ -71,4 +78,3 @@
       </div>
     </div>
   </div>
-</div>

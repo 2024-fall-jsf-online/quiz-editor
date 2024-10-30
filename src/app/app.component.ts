@@ -3,24 +3,24 @@ import { QuizService } from './quiz.service';
 
 // Define interfaces for quiz and question display
 interface QuizDisplay {
-  quiz: string;
-  questions: QuestionDisplay[];
+  quizName: string; // Property in the interface
+  quizQuestions: QuestionDisplay[]; // Property in the interface
 }
 
 interface QuestionDisplay {
-  question: string;
+  question: string; // Property in the interface
 }
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'] // Corrected styleUrl to styleUrls
+  styleUrls: ['./app.component.css'] 
 })
 export class AppComponent implements OnInit {
   title = 'quiz-editor';
 
   // Property to hold quizzes
-  quizzes: QuizDisplay[] = []; // Initialize quizzes as an empty array
+  quizzes: QuizDisplay[] = []; 
 
   constructor(public quizService: QuizService) {}
 
@@ -31,9 +31,9 @@ export class AppComponent implements OnInit {
 
     // Transform quizzes to match QuizDisplay interface
     this.quizzes = quizzes.map(x => ({
-      quiz: x.name, 
-      questions: x.questions.map((y: { name: any; }) => ({
-        question: y.name 
+      quizName: x.name, // Use 'quizName' to match QuizDisplay
+      quizQuestions: x.questions.map((y: { name: any; }) => ({ // Use 'quizQuestions'
+        question: y.name // This matches the QuestionDisplay interface
       }))
     }));
     

@@ -3,22 +3,23 @@ import { QuizService } from './quiz.service';
 
 // Define interfaces for quiz and question display
 interface QuizDisplay {
-  quizName: string; // Property in the interface
-  quizQuestions: QuestionDisplay[]; // Property in the interface
+  quizName: string;
+  quizQuestions: QuestionDisplay[];
 }
 
 interface QuestionDisplay {
-  question: string; // Property in the interface
+  question: string;
 }
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'] 
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
   title = 'quiz-editor';
-
+  quizzes: QuizDisplay[] = [];
+  selectedQuiz: QuizDisplay | undefined = undefined;
 
   constructor(public quizService: QuizService) {}
 
@@ -29,22 +30,28 @@ export class AppComponent implements OnInit {
 
     // Transform quizzes to match QuizDisplay interface
     this.quizzes = quizzes.map(x => ({
-      quizName: x.name, // Use 'quizName' to match QuizDisplay
-      quizQuestions: x.questions.map((y: { name: any; }) => ({ // Use 'quizQuestions'
-        question: y.name // This matches the QuestionDisplay interface
+      quizName: x.name,
+      quizQuestions: x.questions.map((y: { name: any; }) => ({
+        question: y.name
       }))
     }));
     
     console.log(this.quizzes);
   }
 
-   // Property to hold quizzes
-   quizzes: QuizDisplay[] = [];
-
-  selectedQuiz: QuizDisplay | undefined = undefined;
-
-  selectQuiz = (q: QuizDisplay) =>{
+  selectQuiz = (q: QuizDisplay) => {
     this.selectedQuiz = q;
     console.log(this.selectedQuiz);
+  }
+
+  addNewQuiz() {
+    const newQuiz: QuizDisplay = {
+      quizName: 'Untitled Quiz',
+      quizQuestions: []
+    };
+
+    // Add the new quiz and select it
+    this.quizzes = [...this.quizzes, newQuiz];
+    this.selectedQuiz = newQuiz;
   }
 }

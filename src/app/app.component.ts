@@ -38,4 +38,11 @@ ngOnInit(): void {
   }
 
   quizzes: QuizDisplay[] = [];
+
+  selectedQuiz: QuizDisplay | undefined = undefined;
+
+  selectQuiz = (q: QuizDisplay) => {
+    this.selectedQuiz = q;
+    console.log(this.selectedQuiz);
+  }; 
 }

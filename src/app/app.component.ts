@@ -41,10 +41,10 @@ export class AppComponent implements OnInit {
    // Property to hold quizzes
    quizzes: QuizDisplay[] = [];
 
-  selecedQuiz: QuizDisplay | undefined = undefined;
+  selectedQuiz: QuizDisplay | undefined = undefined;
 
   selectQuiz = (q: QuizDisplay) =>{
-    this.selecedQuiz = q;
-    console.log(this.selecedQuiz);
+    this.selectedQuiz = q;
+    console.log(this.selectedQuiz);
   }
 }

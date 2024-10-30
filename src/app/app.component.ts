@@ -19,8 +19,6 @@ interface QuestionDisplay {
 export class AppComponent implements OnInit {
   title = 'quiz-editor';
 
-  // Property to hold quizzes
-  quizzes: QuizDisplay[] = []; 
 
   constructor(public quizService: QuizService) {}
 
@@ -38,5 +36,15 @@ export class AppComponent implements OnInit {
     }));
     
     console.log(this.quizzes);
+  }
+
+   // Property to hold quizzes
+   quizzes: QuizDisplay[] = [];
+
+  selecedQuiz: QuizDisplay | undefined = undefined;
+
+  selectQuiz = (q: QuizDisplay) =>{
+    this.selecedQuiz = q;
+    console.log(this.selecedQuiz);
   }
 }

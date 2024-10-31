@@ -45,4 +45,19 @@ export class AppComponent implements OnInit {
     this.selectedQuiz = q;
     console.log(this.selectedQuiz);
   };
+
+  //define function for creating a new quiz
+  addNewQuiz = () => {
+    const newQuiz = {
+      quizName: "Untitled Quiz"
+      , quizQuestions: []
+    };
+
+    this.quizzes = [ //adding the new quiz to the quizzes array using spread operator
+      ...this.quizzes
+      , newQuiz
+    ];
+
+    this.selectedQuiz = newQuiz; //establishing the new quiz as the default selected one
+  };
 }

@@ -28,8 +28,14 @@
         
         <div class="card mt-3">
           <div class="card-header">General</div>
-          <div class="card-body border rounded p-3 m-2">
-            {{selectedQuiz.quizName}}
+          <div class="card-body">
+            <!-- Editable quiz name input -->
+            <input 
+              type="text" 
+              [(ngModel)]="selectedQuiz.quizName" 
+              class="form-control" 
+              placeholder="Enter quiz name"
+            />
           </div>
         </div>
     

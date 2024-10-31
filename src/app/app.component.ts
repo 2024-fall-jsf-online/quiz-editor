@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QuizService } from './quiz.service';
+import { FormsModule } from '@angular/forms'; // Import FormsModule for ngModel
 
 // Define interfaces for quiz and question display
 interface QuizDisplay {

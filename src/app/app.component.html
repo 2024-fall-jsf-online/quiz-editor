@@ -28,18 +28,18 @@
         
         <div class="card mt-3">
           <div class="card-header">General</div>
-          <div class="card-body">
+          <div class="card-body border rounded p-3 m-2">
             {{selectedQuiz.quizName}}
           </div>
         </div>
-
+    
         <div class="card mt-3">
           <div class="card-header">Questions</div>
           <div class="card-body">
             Coming soon
           </div>
         </div>
-
+    
         <div class="card mt-3">
           <div class="card-header">Other</div>
           <div class="card-body">
@@ -48,7 +48,6 @@
         </div>
       </div>
     </div>
-
     <div class="col-md-8 mt-3" *ngIf="!selectedQuiz">
       <div class="card bg-light text-center">
         <h2>No quiz selected</h2>

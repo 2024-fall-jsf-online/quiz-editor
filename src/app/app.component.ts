@@ -37,6 +37,7 @@ export class AppComponent implements OnInit {
 
   quizzes: QuizDisplay[] = [];
 
+  //Method to select a quiz
   selectedQuiz: QuizDisplay | undefined = undefined;
   
   selectQuiz = (q: QuizDisplay) => {
@@ -44,4 +45,16 @@ export class AppComponent implements OnInit {
 
     console.log(this.selectedQuiz);
   };
+
+  //Method to add a new quiz
+  addNewQuiz() {
+    const newQuiz: QuizDisplay = {
+      quizName: 'Untitled Quiz',
+      quizQuestions: []
+    };
+    this.quizzes = [...this.quizzes, newQuiz];
+    this.selectedQuiz = newQuiz;
+    console.log('New Quiz Added: ', this.selectedQuiz);
+
+  }
 }

@@ -56,5 +56,24 @@ export class AppComponent implements OnInit {
     this.selectedQuiz = newQuiz;
     console.log('New Quiz Added: ', this.selectedQuiz);
 
+  };
+
+  //Method to add a new question
+  addNewQuestion = () => {
+    if (this.selectedQuiz) {
+      this.selectedQuiz.quizQuestions = [
+        ...this.selectedQuiz?.quizQuestions
+        , {
+          questionName: "Untitled Question"
+        }
+      ];
+    }
+  };
+
+  //Method to remove a question
+  removeQuestion = (questionToRemove: QuestionDisplay) => {
+    if (this.selectedQuiz) {
+      this.selectedQuiz.quizQuestions = this.selectedQuiz.quizQuestions.filter(x => x !== questionToRemove);
+    }
   }
 }

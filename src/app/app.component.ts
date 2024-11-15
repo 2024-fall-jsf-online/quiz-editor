@@ -24,21 +24,28 @@ export class AppComponent implements OnInit {
   errorLoadingQuizzes = false;
   loadingQuizzes = true;
 
+  // quizzes loading from cloud here
   loadQuizzesFromCloud = async () => {
     try {
       const quizzes = (await this.quizSvc.loadQuizzes()) ?? [];
       console.log(quizzes);
 
       this.quizzes = quizzes.map((x) => ({
+        // loading
         quizName: x.name,
         quizQuestions: x.questions.map((y) => ({
           questionName: y.name,
         })),
         markedForDelete: false,
       }));
+      // loading done
+      this.loadingQuizzes = false;
     } catch (err) {
+      // error loading
       console.error(err);
       this.errorLoadingQuizzes = true;
+      // loading done
+      this.loadingQuizzes = false;
     }
   };
 

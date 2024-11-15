@@ -10,19 +10,15 @@ interface QuizFromWeb {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class QuizService {
-
-  constructor(
-    private angularHttpClient: HttpClient
-  ) { }
+  constructor(private angularHttpClient: HttpClient) {}
 
   loadQuizzes = () => {
-
     const quizzesFromWeb = lastValueFrom(
       this.angularHttpClient.get<QuizFromWeb[]>(
-      "https://modern-js.azurewebsites.net/api/HttpTriggerJS1?code=8XD3vN3ehHLdZacBQJQhgUnNst9202gdd5VM3kWCytDkz2nXhia6kA==&name=Mystery%20Quiz"
+        'https://modern-js.azurewebsites.net/api/HttpTriggerJS1?code=8XD3vN3ehHLdZacBQJQhgUnNst9202gdd5VM3kWCytDkz2nXhia6kA==&name=Mystery%20Quiz'
       )
     );
 
@@ -30,23 +26,19 @@ export class QuizService {
   };
 
   getMagicNumber = (callerWantsToSucceed: boolean): Promise<number> => {
-    return new Promise<number>(
-      (resolve, reject) => {
+    return new Promise<number>((resolve, reject) => {
+      //
+      // Some fancy long running code here...
+      //
 
-        //
-        // Some fancy long running code here...
-        //
-
-        // Ultimately resolve if successful.
-        if (callerWantsToSucceed) {
-          resolve(42);
-        }
-        // Or reject if failure.
-        else {
-          reject("Error");
-        }
+      // Ultimately resolve if successful.
+      if (callerWantsToSucceed) {
+        resolve(42);
       }
-    );
+      // Or reject if failure.
+      else {
+        reject('Error');
+      }
+    });
   };
-
 }

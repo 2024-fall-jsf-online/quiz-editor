@@ -28,8 +28,8 @@ export class AppComponent implements OnInit {
     console.log(quizzes);
 
     // new way
-    quizzes.subscribe(
-      (data) => {
+    quizzes.subscribe({
+      next: (data) => {
         console.log(data);
         this.quizzes = data.map((x) => ({
           quizName: x.name,
@@ -39,11 +39,11 @@ export class AppComponent implements OnInit {
           markedForDelete: false,
         }));
       },
-      (err) => {
+      error: (err) => {
         console.error(err.error);
         this.errorLoadingQuizzes = true;
-      }
-    );
+      },
+    });
 
     // old way
     // this.quizzes = quizzes.map (x => ({

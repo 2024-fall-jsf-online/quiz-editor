@@ -1,5 +1,28 @@
 <div class="container">
-  <div class="row">
+  <div 
+    class="row"
+    *ngIf="loading"
+  >
+    <div class="col-md-12">
+      <div class="alert alert-dark mt-3">
+        <b>Loading...</b>
+      </div>
+    </div>
+  </div>
+  <div 
+    class="row"
+    *ngIf="errorLoadingQuizzes"
+  >
+    <div class="col-md-12">
+      <div class="alert alert-info mt-3">
+        Error loading quizzes, please try again later...
+      </div>
+    </div>
+  </div>
+  <div 
+    class="row"
+    *ngIf="!loading && !errorLoadingQuizzes"
+  >
     <div class="col-md-4">
       <button 
         class="btn btn-outline-success mt-3 mb-3"
@@ -14,10 +37,13 @@
             *ngFor="let q of quizzes"
             (click)="selectQuiz(q)"
             [class.active]="q === selectedQuiz"
+            [style.text-decoration]="q.markedForDelete ? 'line-through' : 'inherit'"
           >
-            {{ q.quizName }}
-            <small class="font-itallic font-weight-lighter">
-              {{ q.quizQuestions.length}} questions
+            <span class="text-truncate me-3">
+              {{ q.quizName }}
+            </span>
+            <small class="fst-italic fw-lighter text-nowrap">
+              {{ q.quizQuestions.length}} question<span *ngIf="q.quizQuestions.length !== 1">s</span>
             </small>
           </button>
         </div>
@@ -44,7 +70,8 @@
             type="text"
             [(ngModel)]="selectedQuiz.quizName"
             class="form-control"
-          >
+            placeholder="Enter quiz name"
+          />
         </div>
       </div>
       <div class="card mt-3">
@@ -52,7 +79,33 @@
           Questions
         </div>
         <div class="card-body">
-          Coming soon
+          <button 
+            class="btn btn-outline-success"
+            (click)="addNewQuestion()"
+          >
+            Add New Question
+          </button>
+          <div 
+            class="row mt-3"
+            *ngFor="let question of selectedQuiz.quizQuestions"
+          >
+            <div class="col-md-10">
+              <input 
+                type="text"
+                [(ngModel)]="question.questionName"
+                class="form-control"
+                placeholder="Enter question text"
+              />
+            </div>
+            <div class="col-md-2">
+              <button 
+                class="btn btn-link text-danger"
+                (click)="removeQuestion(question)"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="card mt-3">
@@ -60,7 +113,16 @@
           Other
         </div>
         <div class="card-body">
-          Coming soon
+          <div class="form-check">
+            <label class="form-check-label text-danger">
+              <input 
+                type="checkbox" 
+                class="form-check-input"
+                [(ngModel)]="selectedQuiz.markedForDelete"
+              />
+              Mark for Delete
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -74,6 +136,24 @@
         </h2>
         <p>
           Select or add a new quiz
+          <button 
+            class="btn btn-link"
+            (click)="jsPromisesOne()"
+          >
+            One
+          </button>
+          <button 
+            class="btn btn-link"
+            (click)="jsPromisesTwo()"
+          >
+            Two
+          </button>
+          <button 
+            class="btn btn-link"
+            (click)="jsPromisesThree()"
+          >
+            Three
+          </button>
         </p>
       </div>
     </div>

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { QuizService } from './quiz.service';
+import { QuizService, QuizFromWeb } from './quiz.service';
 
 interface QuizDisplay {
   quizName: string;
   quizQuestions: QuestionDisplay[];
+  markedForDelete: boolean;
 }
 
 interface QuestionDisplay {
@@ -23,18 +24,34 @@ export class AppComponent implements OnInit {
   ) {
   }
 
+  loading = true;
+  errorLoadingQuizzes = false;
+
+  loadQuizzesFromCloud = async () => {
+
+    try {
+      const quizzes = await this.quizSvc.loadQuizzes() ?? [];
+      console.log(quizzes);
+
+      this.quizzes = quizzes.map(x => ({
+        quizName: x.name
+        , quizQuestions: x.questions.map(y => ({
+          questionName: y.name
+        }))
+        , markedForDelete: false
+      }));      
+
+      this.loading = false;
+    }
+    catch (err) {
+      console.error(err);
+      this.errorLoadingQuizzes = true;
+      this.loading = false;      
+    }
+  };
+
   ngOnInit() {
-    const quizzes = this.quizSvc.loadQuizzes();
-    console.log(quizzes);
-
-    this.quizzes = quizzes.map(x => ({
-      quizName: x.name
-      , quizQuestions: x.questions.map((y: any) => ({
-        questionName: y.name
-      }))
-    }));
-
-    console.log(this.quizzes);
+    this.loadQuizzesFromCloud();
   }
 
   quizzes: QuizDisplay[] = [];
@@ -50,6 +67,7 @@ export class AppComponent implements OnInit {
     const newQuiz = {
       quizName: "Untitled Quiz"
       , quizQuestions: []
+      , markedForDelete: false
     };
 
     this.quizzes = [
@@ -59,4 +77,78 @@ export class AppComponent implements OnInit {
 
     this.selectedQuiz = newQuiz;
   };
+
+  addNewQuestion = () => {
+    
+    if (this.selectedQuiz) {
+      this.selectedQuiz.quizQuestions = [
+        ...this.selectedQuiz.quizQuestions
+        , {
+          questionName: "Untitled Question"
+        }
+      ];
+    }
+  };
+
+  removeQuestion = (questionToRemove: QuestionDisplay) => {
+    if (this.selectedQuiz) {
+      this.selectedQuiz.quizQuestions = this.selectedQuiz.quizQuestions.filter(x => x !== questionToRemove);
+    }
+  };
+
+
+  jsPromisesOne = () => {
+    const n = this.quizSvc.getMagicNumber(true);
+    console.log(n); // ? ? ? 
+
+    n.then(
+      number => {
+        console.log(number);
+
+        const n2 = this.quizSvc.getMagicNumber(true);
+        console.log(n2); // ? ? ?
+        
+        n2.then(x => console.log(x)).catch(e => console.error(e));
+      }
+    ).catch(
+      err => {
+        console.error(err);
+      }
+    )
+  };
+
+  jsPromisesTwo = async () => {
+
+    try {
+      const x = await this.quizSvc.getMagicNumber(true);
+      console.log(x); // ? ? ?
+
+      const y = await this.quizSvc.getMagicNumber(true);
+      console.log(y); // ? ? ?
+    }
+    
+    catch (err) {
+      console.error(err);
+    }
+  };
+
+  jsPromisesThree = async () => {
+
+    try {
+      const x = this.quizSvc.getMagicNumber(true);
+      console.log(x); // ? ? ?
+
+      const y = this.quizSvc.getMagicNumber(true);
+      console.log(y); // ? ? ?
+
+      const results = await Promise.all([x, y]);
+      // const results = await Promise.race([x, y]);
+      console.log(results); // ? ? ?
+    }
+    
+    catch (err) {
+      console.error(err);
+    }
+  };
+
 }

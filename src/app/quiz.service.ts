@@ -1,32 +1,52 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
+
+export interface QuizFromWeb {
+  name: string;
+  questions: {
+    name: string;
+  }[];
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuizService {
 
-  constructor() { }
+  constructor(
+    private angularHttpClient: HttpClient
+  ) { }
 
   loadQuizzes = () => {
 
-    const quizzesFromWeb: any[] = [
-      {
-        name: 'Quiz 1'
-        , questions: [
-          {
-            name: 'Question 1'
-          }
-          , {
-            name: 'Question 2'
-          }
-        ]
-      }
-      , {
-        name: 'Quiz 2'
-        , questions: []
-      }
-    ];
+    const quizzesFromWeb = lastValueFrom(
+      this.angularHttpClient.get<QuizFromWeb[]>(
+      "https://modern-js.azurewebsites.net/api/HttpTriggerJS1?code=8XD3vN3ehHLdZacBQJQhgUnNst9202gdd5VM3kWCytDkz2nXhia6kA==&name=Mystery%20Quiz"
+      )
+    );
 
     return quizzesFromWeb;
   };
+
+  getMagicNumber = (callerWantsToSucceed: boolean): Promise<number> => {
+    return new Promise<number>(
+      (resolve, reject) => {
+
+        //
+        // Some fancy long running code here...
+        //
+
+        // Ultimately resolve if successful.
+        if (callerWantsToSucceed) {
+          resolve(42);
+        }
+        // Or reject if failure.
+        else {
+          reject("Error");
+        }
+      }
+    );
+  };
+
 }

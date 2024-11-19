@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   ) {
   }
 
+  loading = true;
   errorLoadingQuizzes = false;
 
   loadQuizzesFromCloud = async () => {
@@ -38,7 +39,8 @@ export class AppComponent implements OnInit {
           questionName: y.name
         }))
         , markedForDelete: false
-      }));      
+      }));   
+      this.loading = false;  
     }
     catch (err) {
       console.error(err);

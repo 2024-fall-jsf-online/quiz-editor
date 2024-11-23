@@ -49,6 +49,10 @@
           <span class="badge bg-danger" *ngIf="deletedQuizCount > 0">
             -{{ deletedQuizCount }}
           </span>
+
+          <span class="badge bg-success" *ngIf="addedQuizCount > 0">
+            +{{ addedQuizCount }}
+          </span>
         </button>
 
         <button class="btn btn-link" (click)="cancelAllChanges()">

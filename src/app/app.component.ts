@@ -18,125 +18,108 @@ interface QuestionDisplay {
 })
 export class AppComponent implements OnInit {
   title = 'quiz-editor';
-
-  constructor(
-    public quizSvc: QuizService
-  ) {
-  }
+  quizzes: QuizDisplay[] = [];
+  selectedQuiz: QuizDisplay | undefined;
   errorLoadingQuizzes = false;
-  loadQuizzesFromCloud = async () =>{
-    try {
-      const quizzes = await this.quizSvc.loadQuizzes();
-      console.log(quizzes);
-      this.quizzes = quizzes.map(x =>({
-        quizName: x.name,
-        quizQuestions: x.questions.map(y =>({
-          questionName:y.name
 
-        }))
-        ,markedForDelete:false
-      }));
-    } catch (err) {
-      console.error(err);
-      this.errorLoadingQuizzes =true;
-    }
-  }
+  constructor(public quizSvc: QuizService) {}
 
   ngOnInit() {
     this.loadQuizzesFromCloud();
   }
 
-  quizzes: QuizDisplay[] = [];
+  // Load quizzes asynchronously
+  loadQuizzesFromCloud = async () => {
+    try {
+      const quizzes = await this.quizSvc.loadQuizzes();
+      this.quizzes = quizzes.map(x => ({
+        quizName: x.name || 'Unnamed Quiz',  // Fallback for missing quiz name
+        quizQuestions: (x.questions || []).map(y => ({
+          questionName: y.name || 'Unnamed Question'  // Fallback for missing question name
+        })),
+        markedForDelete: false
+      }));
+    } catch (err) {
+      console.error('Error loading quizzes:', err);
+      this.errorLoadingQuizzes = true;
+    }
+  };
 
-  selectedQuiz: QuizDisplay | undefined = undefined;
-
+  // Select a quiz for editing
   selectQuiz = (q: QuizDisplay) => {
     this.selectedQuiz = q;
     console.log(this.selectedQuiz);
   };
 
+  // Add a new quiz
   addNewQuiz = () => {
-    const newQuiz = {
-      quizName: "Untitled Quiz"
-      , quizQuestions: []
-      , markedForDelete: false
+    const newQuiz: QuizDisplay = {
+      quizName: 'Untitled Quiz',
+      quizQuestions: [],
+      markedForDelete: false
     };
 
-    this.quizzes = [
-      ...this.quizzes
-      , newQuiz 
-    ];
-
+    this.quizzes = [...this.quizzes, newQuiz];
     this.selectedQuiz = newQuiz;
   };
 
+  // Add a new question to the selected quiz
   addNewQuestion = () => {
-    
     if (this.selectedQuiz) {
       this.selectedQuiz.quizQuestions = [
-        ...this.selectedQuiz.quizQuestions
-        , {
-          questionName: "Untitled Question"
-        }
+        ...this.selectedQuiz.quizQuestions,
+        { questionName: 'Untitled Question' }
       ];
     }
   };
 
+  // Remove a question from the selected quiz
   removeQuestion = (questionToRemove: QuestionDisplay) => {
     if (this.selectedQuiz) {
-      this.selectedQuiz.quizQuestions = this.selectedQuiz.quizQuestions.filter(x => x !== questionToRemove);
+      this.selectedQuiz.quizQuestions = this.selectedQuiz.quizQuestions.filter(
+        question => question !== questionToRemove
+      );
     }
   };
+
+  // Handle promises with different approaches
   jsPromisesOne = () => {
     const n = this.quizSvc.getMagicNumber(true);
-    console.log(n);
-    n.then(
-      Number => {
-        console.log(Number);
-        const n2 = this.quizSvc.getMagicNumber(true);
-        console.log(n2);
-        n2.then(x => console.log(x)).catch(e => console.error(e));
-      } 
-    )
-    .catch (
-        err => {
-          console.error(err);
+    n.then(number => {
+      console.log(number);
+      return this.quizSvc.getMagicNumber(true);
+    })
+    .then(number2 => console.log(number2))
+    .catch(err => console.error(err));
+  };
 
-        }
-      )
-   };
-   jsPromisesTwo = async () => {
+  jsPromisesTwo = async () => {
     try {
-    const x = await this.quizSvc.getMagicNumber(true);
-    console.log(x);
+      const x = await this.quizSvc.getMagicNumber(true);
+      console.log(x);
 
-    const y = await this.quizSvc.getMagicNumber(true);
-    console.log(y);
-  }
-  catch (err) {
-    console.error(err);
-  }
+      const y = await this.quizSvc.getMagicNumber(true);
+      console.log(y);
+    } catch (err) {
+      console.error('Promise error:', err);
+    }
+  };
 
-   };
-   jsPromisesThree = async () => {
+  jsPromisesThree = async () => {
     try {
-    const x = this.quizSvc.getMagicNumber(true);
-    console.log(x);
-    
-    const y = this.quizSvc.getMagicNumber(true);
-    console.log(y);
+      const [x, y] = await Promise.all([
+        this.quizSvc.getMagicNumber(true),
+        this.quizSvc.getMagicNumber(true)
+      ]);
+      console.log([x, y]);
+    } catch (err) {
+      console.error('Error loading promises:', err);
+    }
+  };
 
-    const results = await Promise.all([x,y]);
-    console.log(results);
-  }
-  catch (err) {
-    console.error(err);
-  }
-
-   };
-   /*
-   cancelAllChanges = () => {
+  // Cancel changes and reload quizzes from the cloud
+  cancelAllChanges = () => {
     this.loadQuizzesFromCloud();
-    this.selectQuiz = undefined;
-   }*/
+    this.selectedQuiz = undefined;  // Corrected reset
+  };
 }

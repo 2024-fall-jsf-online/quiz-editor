@@ -5,6 +5,8 @@ interface QuizDisplay {
   quizName: string;
   quizQuestions: QuestionDisplay[];
   markedForDelete: boolean;
+  newlyAddedQuiz: boolean;
+  naiveQuizChecksum: string;
 }
 
 interface QuestionDisplay {
@@ -20,9 +22,14 @@ export class AppComponent implements OnInit {
   title = 'quiz-editor';
   quizzes: QuizDisplay[] = [];
   selectedQuiz: QuizDisplay | undefined;
+  loading = true;
   errorLoadingQuizzes = false;
 
   constructor(public quizSvc: QuizService) {}
+
+  generateNaiveQuizChecksum = (quiz: any) => {
+    return quiz.name + quiz.questions.map((x: any) => '~' + x.name).join('');
+  };
 
   ngOnInit() {
     this.loadQuizzesFromCloud();
@@ -31,17 +38,23 @@ export class AppComponent implements OnInit {
   // Load quizzes asynchronously
   loadQuizzesFromCloud = async () => {
     try {
+      this.loading = true;
       const quizzes = await this.quizSvc.loadQuizzes();
-      this.quizzes = quizzes.map(x => ({
-        quizName: x.name || 'Unnamed Quiz',  // Fallback for missing quiz name
-        quizQuestions: (x.questions || []).map(y => ({
-          questionName: y.name || 'Unnamed Question'  // Fallback for missing question name
+      console.log(quizzes);
+      this.quizzes = quizzes.map((x: any) => ({
+        quizName: x.name,
+        quizQuestions: x.questions.map((y: any) => ({
+          questionName: y.name
         })),
-        markedForDelete: false
+        markedForDelete: false,
+        newlyAddedQuiz: false,  // Corrected typo: was newelyAddedQuiz
+        naiveQuizChecksum: this.generateNaiveQuizChecksum(x)
       }));
+      this.loading = false;  // Set loading to false after successful load
     } catch (err) {
       console.error('Error loading quizzes:', err);
       this.errorLoadingQuizzes = true;
+      this.loading = false;  // Set loading to false on error
     }
   };
 
@@ -56,7 +69,9 @@ export class AppComponent implements OnInit {
     const newQuiz: QuizDisplay = {
       quizName: 'Untitled Quiz',
       quizQuestions: [],
-      markedForDelete: false
+      markedForDelete: false,
+      newlyAddedQuiz: true,  // Corrected typo: was newelyAddedQuiz
+      naiveQuizChecksum: ""
     };
 
     this.quizzes = [...this.quizzes, newQuiz];
@@ -85,11 +100,11 @@ export class AppComponent implements OnInit {
   // Handle promises with different approaches
   jsPromisesOne = () => {
     const n = this.quizSvc.getMagicNumber(true);
-    n.then(number => {
+    n.then((number: number) => {
       console.log(number);
       return this.quizSvc.getMagicNumber(true);
     })
-    .then(number2 => console.log(number2))
+    .then((number2: number) => console.log(number2))
     .catch(err => console.error(err));
   };
 
@@ -122,10 +137,33 @@ export class AppComponent implements OnInit {
     this.loadQuizzesFromCloud();
     this.selectedQuiz = undefined;  
   };
+
   getDeletedQuizzes = () => {
     return this.quizzes.filter(x => x.markedForDelete);
   };
+
   get deletedQuizCount() {
     return this.getDeletedQuizzes().length;
+  }
+
+  getAddedQuizzes = () => {
+    return this.quizzes.filter(x => 
+      x.newlyAddedQuiz && !x.markedForDelete);
+  };
+
+  get addedQuizCount() {
+    return this.getAddedQuizzes().length;
+  }
+
+  getEditedQuizzes = () => {
+    return this.quizzes.filter(x => 
+      x.quizName + x.quizQuestions.map(y => '~' + y.questionName).join('') !== x.naiveQuizChecksum
+      && !x.newlyAddedQuiz 
+      && !x.markedForDelete
+    );
+  };
+
+  get editedQuizCount() {
+    return this.getEditedQuizzes().length;
   }
 }

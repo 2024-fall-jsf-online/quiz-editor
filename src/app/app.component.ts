@@ -232,24 +232,27 @@ export class AppComponent implements OnInit {
 
   saveQuizzes = async () => {
     try {
+        // week 14 slackntell
+        const newQuizzes: ShapeForSavingNewQuizzes[] = this.getAddedQuizzes().map(x => ({
+          quizName: x.quizName
+          , quizQuestions: x.quizQuestions.map(y => y.questionName)
+        }));
 
-      const newQuizzes: ShapeForSavingNewQuizzes[] = [];
-      
-      const editedQuizzes: ShapeForSavingEditedQuizzes[] = this.getEditedQuizzes().map(x => ({
-        quiz: x.quizName
-        , questions: x.quizQuestions.map(y => ({
-          question: y.questionName
-        }))
-      }));
+        const editedQuizzes: ShapeForSavingEditedQuizzes[] = this.getEditedQuizzes().map(x => ({
+          quiz: x.quizName
+          , questions: x.quizQuestions.map(y => ({
+            question: y.questionName
+          }))
+        }));
 
-      const numberOfUdpatedQuizzes = await this.quizSvc.saveQuizzes(
-        editedQuizzes, 
-        newQuizzes
-      );
+        const numberOfUpdatedQuizzes = await this.quizSvc.saveQuizzes(
+          editedQuizzes
+          , newQuizzes
+        );
 
-      console.log("numberOfUpdatedQuizzes", numberOfUdpatedQuizzes);
-  }
-    
+        console.log("numberOfUpdatedQuizzes", numberOfUpdatedQuizzes);
+    }
+
     catch (err) {
       console.error(err);
     }

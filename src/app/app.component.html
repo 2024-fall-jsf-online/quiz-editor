@@ -58,8 +58,12 @@
     (@detailsFromLeft.done)="detailsFromLeftAnimationDone"
     >
       <div  *ngIf="selectedQuiz != undefined">
-        <div class="mt-3 mb-3">
-          <button class="btn btn-outline-dark">
+        <div 
+        [@pulseSaveCancelButtons]="deletedQuizCount + editedQuizCount + addedQuizCount > 0 ? 'somethingToSave' : 'nothingToSave' "
+        class="mt-3 mb-3">
+          <button class="btn btn-outline-dark"
+          (click)="saveQuizzes()"
+          >
             Save
             <span class="badge bg-danger ms-1" *ngIf="deletedQuizCount > 0">
               -{{ deletedQuizCount }}

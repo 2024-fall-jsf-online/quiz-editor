@@ -71,7 +71,7 @@ export class QuizService {
 
     //console.log(h);
 
-    return this.angularHttpClient.post(
+    return lastValueFrom(this.angularHttpClient.post(
       'https://modern-js.azurewebsites.net/save-quizzes-proxy'
       , JSON.stringify(
         {
@@ -82,6 +82,6 @@ export class QuizService {
       , {
         headers: h
       }
-    ).toPromise();
+    ));
   }
 }

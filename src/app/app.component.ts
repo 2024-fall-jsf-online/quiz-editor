@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { QuizService, QuizFromWeb } from './quiz.service';
+import { QuizService, QuizFromWeb, ShapeForSavingNewQuizzes, ShapeForSavingEditedQuizzes } from './quiz.service';
 
 import { trigger, style, animate, transition, keyframes } from '@angular/animations'
 
@@ -224,4 +224,25 @@ export class AppComponent implements OnInit {
   detailsFromLeftAnimationDone = () => {
     this.detailsFromLeftAnimationState = "leftPosition";
   }
+
+  saveQuizzes = async () => {
+    try {
+      const newQuizzes: ShapeForSavingNewQuizzes[] = [];
+      const editedQuizzes: ShapeForSavingEditedQuizzes[] = this.getEditedQuizzes().map(x => ({
+        quiz: x.quizName,
+        questions: x.quizQuestions.map(y => ({
+          question: y.questionName
+        }))
+      }));
+
+      const numberOfUpdatedQuizzes = await this.quizSvc.saveQuizzes(
+        editedQuizzes,
+        newQuizzes
+      );
+
+      console.log("numberOfUpdatesQuizzes", numberOfUpdatedQuizzes);
+    } catch (err) {
+      console.error(err)
+    }
+  };
 }

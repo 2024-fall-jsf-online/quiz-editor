@@ -151,4 +151,8 @@ export class AppComponent implements OnInit {
     }
   };
 
+  cancelAllCahanges = () => {
+    this.loadQuizzesFromCloud();
+    this.selectedQuiz = undefined;
+  };
 }

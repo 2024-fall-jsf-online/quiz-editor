@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { QuizService } from './quiz.service';
 
+
 interface QuizDisplay {
   quizName: string;
   quizQuestions: QuestionDisplay[];
@@ -23,7 +24,7 @@ export class AppComponent implements OnInit {
     public quizSvc: QuizService
   ) {
   }
-
+  errorloadingquizzes = false;
   ngOnInit() {
     const quizzes = this.quizSvc.loadQuizzes();
     console.log(quizzes);
@@ -40,19 +41,11 @@ export class AppComponent implements OnInit {
         }));
       }
       , err => {
-        console.error(err);
+        console.error(err.error);
+        this.errorloadingquizzes = true;
       }
     );
 
-    //this.quizzes = quizzes.map(x => ({
-    //  quizName: x.name
-    //  , quizQuestions: x.questions.map((y: any) => ({
-    //    questionName: y.name
-    //  }))
-     // , markedForDelete: false
-    // }));
-
-   // console.log(this.quizzes);
   }
 
   quizzes: QuizDisplay[] = [];

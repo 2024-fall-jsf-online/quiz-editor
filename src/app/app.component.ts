@@ -155,4 +155,13 @@ export class AppComponent implements OnInit {
     this.loadQuizzesFromCloud();
     this.selectedQuiz = undefined;
   };
+
+  getdeletedQuizzes = () => {
+    return this.quizzes.filter(x => x.markedForDelete);
+
+  };
+
+  get deletedQuizCount() { 
+    return this.getdeletedQuizzes().length;
+  }
 }

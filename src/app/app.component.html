@@ -68,6 +68,12 @@
           >
               +{{ addedQuizCount }} 
           </span>
+          <span 
+          class="badge bg-light ms-2"
+          *ngIf="edittedQuizCount > 0"
+          >
+              * {{ edittedQuizCount }} 
+          </span>
         </button>
         <button class="btn btn-link"
         (click)="cancelAllCahanges()">

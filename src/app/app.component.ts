@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { QuizService, QuizFromWeb } from './quiz.service';
+import { QuizService, QuizFromWeb,ShapeForSavingNewQuizzes,ShapeForSavingEditedQuizzes } from './quiz.service';
 import { trigger,
   transition,
   animate,
@@ -226,4 +226,37 @@ export class AppComponent implements OnInit {
   detailsFromLeftAnimationDone = () =>{
     this.detailsFromLeftAnimationState ="leftPosition";
   };
+  saveQuizzes = async () => {
+    try {
+      // Prepare the new quizzes data with correct property names
+      const newQuizzes: ShapeForSavingNewQuizzes[] = this.getAddedQuizzes().map(x => ({
+        quizName: x.quizName,  // Match the expected property
+        quizQuestions: x.quizQuestions.map(y => ({
+          questionName: y.questionName  // Match the expected property
+        }))
+      }));
+  
+      // Prepare the edited quizzes data
+      const editedQuizzes: ShapeForSavingEditedQuizzes[] = this.getEditedQuizzes().map(x => ({
+        quiz: x.quizName,  // Assuming 'quiz' is correct for ShapeForSavingEditedQuizzes
+        questions: x.quizQuestions.map(y => ({
+          question: y.questionName
+        }))
+      }));
+  
+      // Save quizzes and await the result for updated quizzes
+      const numberOfUpdatedQuizzes = await this.quizSvc.saveQuizzes(
+        editedQuizzes,
+        newQuizzes
+      );
+  
+      // Log the results
+      console.log("numberOfUpdatedQuizzes", numberOfUpdatedQuizzes);
+      console.log("numberOfNewQuizzes", newQuizzes.length);  // Log the count of new quizzes
+  
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  
 }

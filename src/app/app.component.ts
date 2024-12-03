@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { QuizService, QuizFromWeb } from './quiz.service';
+import {
+  QuizService,
+  QuizFromWeb,
+  ShapeForSavingEditedQuizzes,
+  ShapeForSavingNewQuizzes,
+} from './quiz.service';
 import {
   trigger,
   transition,
@@ -111,7 +116,7 @@ export class AppComponent implements OnInit {
   selectQuiz = (q: QuizDisplay) => {
     this.selectedQuiz = q;
     console.log(this.selectedQuiz);
-    this.detailsFromAnimationState = 'finalPosition';
+    this.detailsFromLeftAnimationState = 'finalPosition';
   };
 
   addNewQuiz = () => {
@@ -231,5 +236,27 @@ export class AppComponent implements OnInit {
 
   detailsFromLeftAnimationDone = () => {
     this.detailsFromLeftAnimationState = 'leftPosition';
+  };
+
+  saveQuizzes = async () => {
+    try {
+      const newQuizzes: ShapeForSavingNewQuizzes[] = [];
+      const editedQuizzes: ShapeForSavingEditedQuizzes[] =
+        this.getEditedQuizzes().map((x) => ({
+          quiz: x.quizName,
+          questions: x.quizQuestions.map((y) => ({
+            question: y.questionName,
+          })),
+        }));
+
+      const numberOfUpdatedQuizzes = await this.quizSvc.saveQuizzes(
+        editedQuizzes,
+        newQuizzes
+      );
+
+      console.log('numberOfUpdatedQuizzes: ' + numberOfUpdatedQuizzes);
+    } catch (err) {
+      console.error(err);
+    }
   };
 }

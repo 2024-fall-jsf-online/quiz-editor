@@ -231,9 +231,7 @@ export class AppComponent implements OnInit {
       // Prepare the new quizzes data with correct property names
       const newQuizzes: ShapeForSavingNewQuizzes[] = this.getAddedQuizzes().map(x => ({
         quizName: x.quizName,  
-        quizQuestions: x.quizQuestions.map(y => ({
-          questionName: y.questionName  
-        }))
+        quizQuestions: x.quizQuestions.map(y => y.questionName)
       }));
   
       // Prepare the edited quizzes data

@@ -16,8 +16,9 @@ export interface ShapeForSavingEditedQuizzes {
 ​
 export interface ShapeForSavingNewQuizzes {
   quizName: string;
-  quizQuestions: { questionName: string }[];
+  quizQuestions: { questionName: string }[]; 
 }
+
 
 @Injectable({
   providedIn: 'root'

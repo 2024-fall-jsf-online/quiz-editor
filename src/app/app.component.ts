@@ -230,15 +230,15 @@ export class AppComponent implements OnInit {
     try {
       // Prepare the new quizzes data with correct property names
       const newQuizzes: ShapeForSavingNewQuizzes[] = this.getAddedQuizzes().map(x => ({
-        quizName: x.quizName,  // Match the expected property
+        quizName: x.quizName,  
         quizQuestions: x.quizQuestions.map(y => ({
-          questionName: y.questionName  // Match the expected property
+          questionName: y.questionName  
         }))
       }));
   
       // Prepare the edited quizzes data
       const editedQuizzes: ShapeForSavingEditedQuizzes[] = this.getEditedQuizzes().map(x => ({
-        quiz: x.quizName,  // Assuming 'quiz' is correct for ShapeForSavingEditedQuizzes
+        quiz: x.quizName,  
         questions: x.quizQuestions.map(y => ({
           question: y.questionName
         }))
@@ -252,8 +252,7 @@ export class AppComponent implements OnInit {
   
       // Log the results
       console.log("numberOfUpdatedQuizzes", numberOfUpdatedQuizzes);
-      console.log("numberOfNewQuizzes", newQuizzes.length);  // Log the count of new quizzes
-  
+      console.log("numberOfNewQuizzes", newQuizzes.length);  
     } catch (err) {
       console.error(err);
     }

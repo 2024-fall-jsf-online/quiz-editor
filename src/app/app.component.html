@@ -93,7 +93,11 @@
         class="mt-3 mb-3"
         [@pulseSaveCancelButtons]="deletedQuizCount + editedQuizCount + addedQuizCount > 0 ? 'somethingToSave' : 'somethingToSave'"  
       >
-        <button class="btn btn-outline-dark">
+        <button 
+          class="btn btn-outline-dark"
+          (click)="saveQuizzes()"
+            
+        >
           Save
           <span 
             class="badge bg-danger ms-1"

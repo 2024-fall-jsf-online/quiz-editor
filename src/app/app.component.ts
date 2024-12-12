@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
       , quizQuestions: x.questions.map((y: any) => ({
         questionName: y.name
       }))
-    }))
+    }));
 
     console.log(this.quizzes)
   }

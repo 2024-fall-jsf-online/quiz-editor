@@ -24,10 +24,11 @@ export class AppComponent implements OnInit {
   ) {
   }
 
+  loading = true;
   errorLoadingQuizzes = false;
 
   loadQuizzesFromCloud = async () => {
-
+    this.loading = true;
     try {
       const quizzes = await this.quizSvc.loadQuizzes() ?? [];
       console.log(quizzes);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { QuizService } from './quiz.service';
 
 interface quizDisplay {
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
 
   selectQuiz = (quiz: quizDisplay) => {
     this.selectedQuiz = quiz
-    
+
     console.log(quiz)
   }
 }

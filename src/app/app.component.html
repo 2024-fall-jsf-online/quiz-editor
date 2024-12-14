@@ -1,4 +1,7 @@
 <div class="container">
+  @if (loading) {
+    <h1>Loading</h1>
+  }
   @if (errorLoadingQuizzes) {
     <div class="row">
       <div class="col-md-12">

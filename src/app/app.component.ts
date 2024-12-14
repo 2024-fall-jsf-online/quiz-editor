@@ -168,7 +168,7 @@ export class AppComponent implements OnInit {
   }
 
   getAddedQuizzes = () => {
-    return this.quizzes.filter(quiz => quiz.newlyAddedQuiz)
+    return this.quizzes.filter(quiz => quiz.newlyAddedQuiz && !quiz.markedForDelete)
   };
 
   get addedQuizCount() {

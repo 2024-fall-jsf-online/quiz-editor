@@ -6,6 +6,7 @@ interface QuizDisplay {
   quizQuestions: QuestionDisplay[];
   markedForDelete: boolean;
   newlyAddedQuiz: boolean;
+  naiveQuizChecksum: string;
 }
 
 interface QuestionDisplay {
@@ -28,6 +29,11 @@ export class AppComponent implements OnInit {
   loading = true;
   errorLoadingQuizzes = false;
 
+  generateNaiveQuizChecksum = (quiz: QuizFromWeb) => {
+    return quiz.name + quiz.questions.map(question => '~' + question.name).join('');
+  };
+
+
   loadQuizzesFromCloud = async () => {
 
     try {
@@ -41,6 +47,7 @@ export class AppComponent implements OnInit {
         }))
         , markedForDelete: false
         , newlyAddedQuiz: false
+        , naiveQuizChecksum: this.generateNaiveQuizChecksum(x)
       }));      
 
       this.loading = false;
@@ -65,12 +72,14 @@ export class AppComponent implements OnInit {
     console.log(this.selectedQuiz);
   };
 
+  
   addNewQuiz = () => {
     const newQuiz = {
       quizName: "Untitled Quiz"
       , quizQuestions: []
       , markedForDelete: false
       , newlyAddedQuiz: true
+      , naiveQuizChecksum: ""
     };
 
     this.quizzes = [
@@ -174,4 +183,17 @@ export class AppComponent implements OnInit {
   get addedQuizCount() {
     return this.getAddedQuizzes().length;
   }
+
+  getEditedQuizzes = () => {
+    return this.quizzes.filter(quiz => 
+      quiz.quizName + quiz.quizQuestions.map(question => '~' + question.questionName).join('') !== quiz.naiveQuizChecksum
+      && !quiz.newlyAddedQuiz
+      && !quiz.markedForDelete
+    );
+  };
+
+  get editedQuizCount() {
+    return this.getEditedQuizzes().length;
+  }
+  
 }

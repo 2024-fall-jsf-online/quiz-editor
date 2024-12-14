@@ -70,6 +70,13 @@
               -{{ deletedQuizCount }}
             </span>
           }
+          @if (editedQuizCount > 0) {
+            <span
+              class="badge bg-warning ms-1"
+            >
+              *{{ editedQuizCount }}
+            </span>
+          }
           
         </button>
         <button 

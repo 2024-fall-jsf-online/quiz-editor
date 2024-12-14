@@ -14,6 +14,7 @@
               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
               (click)="selectQuiz(quiz)"
               [class.active]="quiz === selectedQuiz"
+              [style.text-decoration]="quiz.markedForDelete ? 'line-through': 'inherit'"
             >
               {{ quiz.quizName }}
               <small class="font-italic font-weight-lighter">
@@ -84,7 +85,16 @@
             Other
           </div>
           <div class="card-body">
-            Coming Soon
+            <div class="form-check">
+              <label class="form-check-label text-danger">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [(ngModel)]="selectedQuiz.markedForDelete"
+                />
+                Mark For Delete
+              </label>
+            </div>
           </div>
         </div>
       </div>

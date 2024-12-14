@@ -56,9 +56,16 @@
       <div class="mt-3 mb-3">
         <button class="btn btn-outline-dark">
           Save
+          @if (addedQuizCount > 0) {
+            <span
+              class="badge bg-success ms-1"
+            >
+              +{{ addedQuizCount }}
+            </span>
+          }
           @if (deletedQuizCount > 0) {
             <span
-            class="badge bg-danger ms-1"
+              class="badge bg-danger ms-1"
             >
               -{{ deletedQuizCount }}
             </span>

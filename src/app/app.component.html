@@ -18,7 +18,12 @@
             >
               {{ quiz.quizName }}
               <small class="font-italic font-weight-lighter">
-                {{ quiz.quizQuestions.length }} questions
+                {{ quiz.quizQuestions.length }}
+                @if (quiz.quizQuestions.length !== 1) {
+                  <span>questions</span>
+                } @else {
+                  <span>question</span>
+                }
               </small>
             </button>
           }

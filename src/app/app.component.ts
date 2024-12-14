@@ -56,4 +56,23 @@ export class AppComponent implements OnInit {
     ]
     this.selectedQuiz = newQuiz
   }
+
+  addQuestion = () => {
+    if (!this.selectedQuiz) return
+
+    const newQuestion: QuestionDisplay = {
+      questionName: "Untitled Question"
+    }
+
+    this.selectedQuiz.quizQuestions = [
+      ...this.selectedQuiz.quizQuestions,
+      newQuestion
+    ]
+  }
+
+  removeQuestion = (questionToRemove: QuestionDisplay) => {
+    if (!this.selectedQuiz) return
+
+    this.selectedQuiz.quizQuestions = this.selectedQuiz.quizQuestions.filter(question => question !== questionToRemove)
+  }
 }

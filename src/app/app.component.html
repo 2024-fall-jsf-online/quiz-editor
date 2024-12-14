@@ -16,8 +16,8 @@
               [class.active]="quiz === selectedQuiz"
               [style.text-decoration]="quiz.markedForDelete ? 'line-through': 'inherit'"
             >
-              {{ quiz.quizName }}
-              <small class="font-italic font-weight-lighter">
+              <span class="text-truncate">{{ quiz.quizName }}</span>
+              <small class="font-italic font-weight-lighter text-nowrap">
                 {{ quiz.quizQuestions.length }}
                 @if (quiz.quizQuestions.length !== 1) {
                   <span>questions</span>

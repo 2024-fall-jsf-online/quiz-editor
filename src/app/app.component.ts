@@ -37,7 +37,8 @@ export class AppComponent implements OnInit {
           markedForDelete: false
         }))
       }, err => {
-        console.error(err)
+        this.errorLoadingQuizzes = true
+        console.error(err.error)
       })
 
       console.log(this.quizzes)
@@ -83,4 +84,6 @@ export class AppComponent implements OnInit {
 
     this.selectedQuiz.quizQuestions = this.selectedQuiz.quizQuestions.filter(question => question !== questionToRemove)
   }
+
+  errorLoadingQuizzes = false
 }

@@ -27,13 +27,18 @@ export class AppComponent implements OnInit {
       const quizzes = this.quizSvc.loadQuizzes()
       console.log(quizzes)
 
-      this.quizzes = quizzes.map((quiz: any) => ({
-        quizName: quiz.name,
-        quizQuestions: quiz.questions.map((question: any) => ({
-          questionName: question.name
-        })),
-        markedForDelete: false
-      }))
+      quizzes.subscribe(data => {
+        console.log(data)
+        this.quizzes = data.map((quiz: any) => ({
+          quizName: quiz.name,
+          quizQuestions: quiz.questions.map((question: any) => ({
+            questionName: question.name
+          })),
+          markedForDelete: false
+        }))
+      }, err => {
+        console.error(err)
+      })
 
       console.log(this.quizzes)
   }

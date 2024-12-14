@@ -1,8 +1,14 @@
 <div class="container">
   @if (loading) {
-    <h1>Loading</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="alert alert-info mt-3">
+          Loading quizzes, please wait.
+        </div>
+      </div>
+    </div>
   }
-  @if (errorLoadingQuizzes) {
+  @if (errorLoadingQuizzes && !loading) {
     <div class="row">
       <div class="col-md-12">
         <div class="alert alert-info mt-3">
@@ -10,7 +16,7 @@
         </div>
       </div>
     </div>
-  } @else {
+  } @else if (!errorLoadingQuizzes && !loading) {
     <div class="row">
       <div class="col-md-4">
         <button

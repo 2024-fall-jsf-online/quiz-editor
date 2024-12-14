@@ -35,11 +35,10 @@ export class AppComponent implements OnInit {
         })),
         markedForDelete: false
       }))
-      
-      this.loading = false
     } catch (err) {
       console.error(err)
       this.errorLoadingQuizzes = true
+    } finally {
       this.loading = false
     }
   }
